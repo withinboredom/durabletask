@@ -11,11 +11,11 @@
 //  limitations under the License.
 //  ----------------------------------------------------------------------------------
 
+using Microsoft.Azure.Storage;
+using Microsoft.Azure.Storage.Auth;
+
 namespace DurableTask.AzureStorage
 {
-    using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Auth;
-
     /// <summary>
     /// Connection details of the Azure Storage account
     /// </summary>

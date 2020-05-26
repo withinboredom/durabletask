@@ -11,6 +11,7 @@
 //  limitations under the License.
 //  ----------------------------------------------------------------------------------
 
+
 namespace DurableTask.AzureStorage.Tracking
 {
     using System;
@@ -26,9 +27,8 @@ namespace DurableTask.AzureStorage.Tracking
     using DurableTask.AzureStorage.Monitoring;
     using DurableTask.Core;
     using DurableTask.Core.History;
-    using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Table;
     using Newtonsoft.Json;
+    using Microsoft.Azure.Cosmos.Table;
 
     /// <summary>
     /// Tracking store for use with <see cref="AzureStorageOrchestrationService"/>. Uses Azure Tables and Azure Blobs to store runtime state.
@@ -81,7 +81,7 @@ namespace DurableTask.AzureStorage.Tracking
             this.storageAccountName = account.Credentials.AccountName;
 
             CloudTableClient tableClient = account.CreateCloudTableClient();
-            tableClient.BufferManager = SimpleBufferManager.Shared;
+            //tableClient.BufferManager = SimpleBufferManager.Shared;
 
             string historyTableName = settings.HistoryTableName;
             NameValidator.ValidateTableName(historyTableName);
@@ -114,7 +114,7 @@ namespace DurableTask.AzureStorage.Tracking
             this.stats = stats;
             this.InstancesTable = instancesTable;
             this.settings = new AzureStorageOrchestrationServiceSettings();
-            // Have to set FetchLargeMessageDataEnabled to false, as no MessageManager is 
+            // Have to set FetchLargeMessageDataEnabled to false, as no MessageManager is
             // instantiated for this test.
             this.settings.FetchLargeMessageDataEnabled = false;
         }
@@ -354,7 +354,7 @@ namespace DurableTask.AzureStorage.Tracking
                 DateTime.MinValue,
                 Utils.ExtensionVersion);
 
-            return entities; 
+            return entities;
         }
 
         public override async Task<IList<string>> RewindHistoryAsync(string instanceId, IList<string> failedLeaves, CancellationToken cancellationToken)
@@ -408,7 +408,7 @@ namespace DurableTask.AzureStorage.Tracking
                     continue;
                 }
 
-                // delete TaskScheduled corresponding to TaskFailed event 
+                // delete TaskScheduled corresponding to TaskFailed event
                 if (entity.Properties["EventType"].StringValue == nameof(EventType.TaskFailed))
                 {
                     var taskScheduledId = entity.Properties["TaskScheduledId"].Int32Value.ToString();
@@ -424,7 +424,7 @@ namespace DurableTask.AzureStorage.Tracking
 
                     taskScheduledEntities[0].Properties["Reason"] = new EntityProperty("Rewound: " + taskScheduledEntities[0].Properties["EventType"].StringValue);
                     taskScheduledEntities[0].Properties["EventType"] = new EntityProperty(nameof(EventType.GenericEvent));
-                    
+
                     await this.HistoryTable.ExecuteAsync(TableOperation.Replace(taskScheduledEntities[0]));
                 }
 
@@ -757,7 +757,7 @@ namespace DurableTask.AzureStorage.Tracking
 
             Stopwatch stopwatch = Stopwatch.StartNew();
 
-            TableQuerySegment<OrchestrationInstanceStatus> segment = 
+            TableQuerySegment<OrchestrationInstanceStatus> segment =
                 await this.InstancesTable.ExecuteQuerySegmentedAsync(query, null);
             this.stats.TableEntitiesRead.Increment();
             this.stats.StorageRequests.Increment();
@@ -948,7 +948,7 @@ namespace DurableTask.AzureStorage.Tracking
                     ["LastUpdatedTime"] = new EntityProperty(newEvents.Last().Timestamp),
                 }
             };
-            
+
             for (int i = 0; i < newEvents.Count; i++)
             {
                 bool isFinalEvent = i == newEvents.Count - 1;
@@ -972,7 +972,7 @@ namespace DurableTask.AzureStorage.Tracking
                 // Keep track of the byte count to ensure we don't hit the 4 MB per-batch maximum
                 estimatedBytes += GetEstimatedByteCount(historyEntity);
 
-                // Monitor for orchestration instance events 
+                // Monitor for orchestration instance events
                 switch (historyEvent.EventType)
                 {
                     case EventType.ExecutionStarted:

@@ -11,14 +11,15 @@
 //  limitations under the License.
 //  ----------------------------------------------------------------------------------
 
+using Microsoft.Azure.Storage;
+using Microsoft.Azure.Storage.Queue;
+
 namespace DurableTask.AzureStorage.Messaging
 {
     using System;
     using System.Threading;
     using System.Threading.Tasks;
     using DurableTask.AzureStorage.Monitoring;
-    using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Queue;
 
     class WorkItemQueue : TaskHubQueue
     {

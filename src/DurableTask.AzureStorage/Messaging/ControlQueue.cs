@@ -20,8 +20,8 @@ namespace DurableTask.AzureStorage.Messaging
     using System.Threading;
     using System.Threading.Tasks;
     using DurableTask.AzureStorage.Monitoring;
-    using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Queue;
+    using Microsoft.Azure.Storage;
+    using Microsoft.Azure.Storage.Queue;
 
     class ControlQueue : TaskHubQueue, IDisposable
     {
@@ -144,7 +144,7 @@ namespace DurableTask.AzureStorage.Messaging
                         });
 
                         this.backoffHelper.Reset();
-                        
+
                         // Try to preserve insertion order when processing
                         IReadOnlyList<MessageData> sortedMessages = batchMessages.OrderBy(m => m, MessageOrderingComparer.Default).ToList();
                         foreach (MessageData message in sortedMessages)

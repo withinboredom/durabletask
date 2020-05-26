@@ -11,6 +11,9 @@
 //  limitations under the License.
 //  ----------------------------------------------------------------------------------
 
+using Microsoft.Azure.Storage;
+using Microsoft.Azure.Storage.Queue;
+
 namespace DurableTask.AzureStorage.Messaging
 {
     using System;
@@ -21,8 +24,6 @@ namespace DurableTask.AzureStorage.Messaging
     using DurableTask.AzureStorage.Monitoring;
     using DurableTask.Core;
     using DurableTask.Core.History;
-    using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Queue;
 
     abstract class TaskHubQueue
     {

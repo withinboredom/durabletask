@@ -11,10 +11,11 @@
 //  limitations under the License.
 //  ----------------------------------------------------------------------------------
 
+using Microsoft.Azure.Cosmos.Table;
+
 namespace DurableTask.AzureStorage
 {
     using System;
-    using Microsoft.WindowsAzure.Storage.Table;
 
     /// <summary>
     /// Table Entity Representation of an Orchestration Instance's Status

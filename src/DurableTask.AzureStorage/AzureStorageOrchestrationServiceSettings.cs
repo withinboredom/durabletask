@@ -11,12 +11,13 @@
 //  limitations under the License.
 //  ----------------------------------------------------------------------------------
 
+using Microsoft.Azure.Cosmos.Table;
+using Microsoft.Azure.Storage.Queue;
+
 namespace DurableTask.AzureStorage
 {
     using System;
     using DurableTask.Core;
-    using Microsoft.WindowsAzure.Storage.Queue;
-    using Microsoft.WindowsAzure.Storage.Table;
 
     /// <summary>
     /// Settings that impact the runtime behavior of the <see cref="AzureStorageOrchestrationService"/>.

@@ -11,12 +11,13 @@
 //  limitations under the License.
 //  ----------------------------------------------------------------------------------
 
+using Microsoft.Azure.Storage;
+using Microsoft.Azure.Storage.Queue;
+
 namespace DurableTask.AzureStorage.Messaging
 {
     using System;
     using DurableTask.Core;
-    using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Queue;
 
     abstract class SessionBase
     {

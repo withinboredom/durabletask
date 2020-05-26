@@ -11,6 +11,8 @@
 //  limitations under the License.
 //  ----------------------------------------------------------------------------------
 
+using Microsoft.Azure.Cosmos.Table;
+
 namespace DurableTask.AzureStorage.Tracking
 {
     using System;
@@ -19,7 +21,6 @@ namespace DurableTask.AzureStorage.Tracking
     using System.Diagnostics;
     using System.Reflection;
     using System.Runtime.Serialization;
-    using Microsoft.WindowsAzure.Storage.Table;
     using Newtonsoft.Json;
 
     /// <summary>
@@ -39,7 +40,6 @@ namespace DurableTask.AzureStorage.Tracking
         }
 
         /// <summary>
-        /// Converts a data contract object into a <see cref="DynamicTableEntity"/>.
         /// </summary>
         public DynamicTableEntity ConvertToTableEntity(object obj)
         {

@@ -11,12 +11,13 @@
 //  limitations under the License.
 //  ----------------------------------------------------------------------------------
 
+using Microsoft.Azure.Storage;
+
 namespace DurableTask.AzureStorage
 {
     using System;
     using System.Collections.Concurrent;
     using System.Threading;
-    using Microsoft.WindowsAzure.Storage;
 
     /// <summary>
     /// Simple buffer manager intended for use with Azure Storage SDK and compression code.

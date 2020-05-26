@@ -11,6 +11,10 @@
 //  limitations under the License.
 //  ----------------------------------------------------------------------------------
 
+using Microsoft.Azure.Storage;
+using Microsoft.Azure.Storage.Blob;
+using Microsoft.Azure.Storage.Queue;
+
 namespace DurableTask.AzureStorage
 {
     using System;
@@ -29,9 +33,6 @@ namespace DurableTask.AzureStorage
     using DurableTask.Core;
     using DurableTask.Core.Exceptions;
     using DurableTask.Core.History;
-    using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Blob;
-    using Microsoft.WindowsAzure.Storage.Queue;
     using Newtonsoft.Json;
 
     /// <summary>
@@ -98,7 +99,7 @@ namespace DurableTask.AzureStorage
 
             this.settings = settings;
             this.tableEntityConverter = new TableEntityConverter();
- 
+
             CloudStorageAccount account = settings.StorageAccountDetails == null
                 ? CloudStorageAccount.Parse(settings.StorageConnectionString)
                 : settings.StorageAccountDetails.ToCloudStorageAccount();
@@ -629,7 +630,7 @@ namespace DurableTask.AzureStorage
                                 outOfOrderMessages = new List<MessageData>();
                             }
 
-                            // This can happen if a lease change occurs and a new node receives a message for an 
+                            // This can happen if a lease change occurs and a new node receives a message for an
                             // orchestration that has not yet checkpointed its history. We abandon such messages
                             // so that they can be reprocessed after the history checkpoint has completed.
                             AnalyticsEventSource.Log.ReceivedOutOfOrderMessage(
@@ -767,7 +768,7 @@ namespace DurableTask.AzureStorage
         internal static Guid StartNewLogicalTraceScope()
         {
             // This call sets the activity trace ID both on the current thread context
-            // and on the logical call context. AnalyticsEventSource will use this 
+            // and on the logical call context. AnalyticsEventSource will use this
             // activity ID for all trace operations.
             Guid traceActivityId = Guid.NewGuid();
             AnalyticsEventSource.SetLogicalTraceActivityId(traceActivityId);
@@ -1374,7 +1375,7 @@ namespace DurableTask.AzureStorage
 
         /// <summary>
         /// Get the most current execution (generation) of the specified instance.
-        /// This method is not part of the IOrchestrationServiceClient interface. 
+        /// This method is not part of the IOrchestrationServiceClient interface.
         /// </summary>
         /// <param name="instanceId">Instance ID of the orchestration.</param>
         /// <param name="allExecutions">This parameter is not used.</param>

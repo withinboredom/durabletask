@@ -11,6 +11,10 @@
 //  limitations under the License.
 //  ----------------------------------------------------------------------------------
 
+using Microsoft.Azure.Storage;
+using Microsoft.Azure.Storage.Blob;
+using Microsoft.Azure.Storage.Queue;
+
 namespace DurableTask.AzureStorage
 {
     using System;
@@ -23,9 +27,6 @@ namespace DurableTask.AzureStorage
     using System.Threading.Tasks;
     using DurableTask.AzureStorage.Monitoring;
     using DurableTask.Core;
-    using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Blob;
-    using Microsoft.WindowsAzure.Storage.Queue;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
 
@@ -290,7 +291,7 @@ namespace DurableTask.AzureStorage
                 {
                     return instanceDirectory.ListBlobsSegmentedAsync(blobContinuationToken);
                 });
-                
+
                 stats.StorageRequests.Increment();
                 foreach (IListBlobItem blobListItem in segment.Results)
                 {

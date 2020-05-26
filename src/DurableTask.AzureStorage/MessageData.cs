@@ -11,12 +11,13 @@
 //  limitations under the License.
 //  ----------------------------------------------------------------------------------
 
+using Microsoft.Azure.Storage.Queue;
+
 namespace DurableTask.AzureStorage
 {
     using System;
     using System.Runtime.Serialization;
     using DurableTask.Core;
-    using Microsoft.WindowsAzure.Storage.Queue;
 
     /// <summary>
     /// Protocol class for all Azure Queue messages.

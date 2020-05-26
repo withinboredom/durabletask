@@ -11,6 +11,10 @@
 //  limitations under the License.
 //  ----------------------------------------------------------------------------------
 
+using Microsoft.Azure.Storage;
+using Microsoft.Azure.Storage.Blob;
+using Microsoft.Azure.Storage.Blob.Protocol;
+
 namespace DurableTask.AzureStorage.Partitioning
 {
     using System;
@@ -20,9 +24,6 @@ namespace DurableTask.AzureStorage.Partitioning
     using System.Net;
     using System.Threading.Tasks;
     using DurableTask.AzureStorage.Monitoring;
-    using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Blob;
-    using Microsoft.WindowsAzure.Storage.Blob.Protocol;
     using Newtonsoft.Json;
 
     sealed class BlobLeaseManager : ILeaseManager<BlobLease>

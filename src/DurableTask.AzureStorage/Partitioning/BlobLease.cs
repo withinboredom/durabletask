@@ -11,9 +11,10 @@
 //  limitations under the License.
 //  ----------------------------------------------------------------------------------
 
+using Microsoft.Azure.Storage.Blob;
+
 namespace DurableTask.AzureStorage.Partitioning
 {
-    using Microsoft.WindowsAzure.Storage.Blob;
     using Newtonsoft.Json;
 
     class BlobLease : Lease

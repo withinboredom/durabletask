@@ -11,10 +11,11 @@
 //  limitations under the License.
 //  ----------------------------------------------------------------------------------
 
+using Microsoft.Azure.Storage.Queue;
+
 namespace DurableTask.AzureStorage.Messaging
 {
     using System.Collections.Generic;
-    using Microsoft.WindowsAzure.Storage.Queue;
 
     class MessageCollection : List<MessageData>
     {

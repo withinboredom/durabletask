@@ -11,6 +11,9 @@
 //  limitations under the License.
 //  ----------------------------------------------------------------------------------
 
+using Microsoft.Azure.Storage;
+using Microsoft.Azure.Storage.Queue;
+
 namespace DurableTask.AzureStorage.Monitoring
 {
     using System;
@@ -19,8 +22,6 @@ namespace DurableTask.AzureStorage.Monitoring
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-    using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Queue;
 
     /// <summary>
     /// Utility class for collecting performance information for a Durable Task hub without actually running inside a Durable Task worker.
@@ -68,8 +69,8 @@ namespace DurableTask.AzureStorage.Monitoring
         {
             this.storageAccount = storageAccount;
             this.taskHub = taskHub;
-            this.maxPollingLatency = 
-                maxPollingIntervalMilliseconds ?? 
+            this.maxPollingLatency =
+                maxPollingIntervalMilliseconds ??
                 (int)AzureStorageOrchestrationServiceSettings.DefaultMaxQueuePollingInterval.TotalMilliseconds;
             this.highLatencyThreshold = Math.Min(this.maxPollingLatency, 1000);
         }
