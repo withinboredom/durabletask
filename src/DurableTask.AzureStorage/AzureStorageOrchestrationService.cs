@@ -11,9 +11,12 @@
 //  limitations under the License.
 //  ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Storage;
+using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Azure.Storage.Blob;
 using Microsoft.Azure.Storage.Queue;
+using CloudStorageAccount = Microsoft.Azure.Storage.CloudStorageAccount;
+using NameValidator = Microsoft.Azure.Storage.NameValidator;
+using StorageException = Microsoft.Azure.Storage.StorageException;
 
 namespace DurableTask.AzureStorage
 {
@@ -104,6 +107,10 @@ namespace DurableTask.AzureStorage
                 ? CloudStorageAccount.Parse(settings.StorageConnectionString)
                 : settings.StorageAccountDetails.ToCloudStorageAccount();
 
+            var cosmosAccount = settings.StorageAccountDetails == null
+                ? Microsoft.Azure.Cosmos.Table.CloudStorageAccount.Parse(settings.StorageConnectionString)
+                : settings.StorageAccountDetails.ToTableAccount();
+
             this.storageAccountName = account.Credentials.AccountName;
             this.stats = new AzureStorageOrchestrationServiceStats();
             this.queueClient = account.CreateCloudQueueClient();
@@ -130,11 +137,11 @@ namespace DurableTask.AzureStorage
             {
                 if (settings.HasTrackingStoreStorageAccount)
                 {
-                    this.trackingStore = new AzureTableTrackingStore(settings, this.messageManager, this.stats, settings.TrackingStoreStorageAccountDetails.ToCloudStorageAccount());
+                    this.trackingStore = new AzureTableTrackingStore(settings, this.messageManager, this.stats, settings.TrackingStoreStorageAccountDetails.ToTableAccount());
                 }
                 else
                 {
-                    this.trackingStore = new AzureTableTrackingStore(settings, this.messageManager, this.stats, account);
+                    this.trackingStore = new AzureTableTrackingStore(settings, this.messageManager, this.stats, cosmosAccount);
                 }
             }
             else

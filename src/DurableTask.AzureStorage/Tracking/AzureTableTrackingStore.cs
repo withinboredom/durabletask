@@ -511,7 +511,8 @@ namespace DurableTask.AzureStorage.Tracking
             }
 
             var stopwatch = new Stopwatch();
-            TableResult orchestration = await this.InstancesTable.ExecuteAsync(TableOperation.Retrieve<OrchestrationInstanceStatus>(instanceId, "", columnsToRetrieve));
+
+            TableResult orchestration = await this.InstancesTable.ExecuteAsync(TableOperation.Retrieve<OrchestrationInstanceStatus>(instanceId, "instance", columnsToRetrieve));
             stopwatch.Stop();
             this.stats.StorageRequests.Increment();
             this.stats.TableEntitiesRead.Increment(1);
@@ -730,7 +731,7 @@ namespace DurableTask.AzureStorage.Tracking
             await this.InstancesTable.ExecuteAsync(TableOperation.Delete(new DynamicTableEntity
             {
                 PartitionKey = orchestrationInstanceStatus.PartitionKey,
-                RowKey = string.Empty,
+                RowKey = "instance",
                 ETag = "*"
             }));
             this.stats.TableEntitiesWritten.Increment();
@@ -819,7 +820,7 @@ namespace DurableTask.AzureStorage.Tracking
             string eTag,
             string inputStatusOverride)
         {
-            DynamicTableEntity entity = new DynamicTableEntity(executionStartedEvent.OrchestrationInstance.InstanceId, "")
+            DynamicTableEntity entity = new DynamicTableEntity(executionStartedEvent.OrchestrationInstance.InstanceId, "instance")
             {
                 ETag = eTag,
                 Properties =
@@ -881,7 +882,7 @@ namespace DurableTask.AzureStorage.Tracking
         /// <inheritdoc />
         public override async Task UpdateStatusForRewindAsync(string instanceId)
         {
-            DynamicTableEntity entity = new DynamicTableEntity(instanceId, "")
+            DynamicTableEntity entity = new DynamicTableEntity(instanceId, "instance")
             {
                 ETag = "*",
                 Properties =
@@ -939,7 +940,7 @@ namespace DurableTask.AzureStorage.Tracking
 
             EventType? orchestratorEventType = null;
 
-            var instanceEntity = new DynamicTableEntity(instanceId, string.Empty)
+            var instanceEntity = new DynamicTableEntity(instanceId, "instance")
             {
                 Properties =
                 {

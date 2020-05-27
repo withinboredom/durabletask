@@ -62,5 +62,24 @@ namespace DurableTask.AzureStorage
                     useHttps: true);
             }
         }
+
+        /// <summary>
+        /// Converts to tableaccount.
+        /// </summary>
+        /// <returns></returns>
+        public Microsoft.Azure.Cosmos.Table.CloudStorageAccount ToTableAccount()
+        {
+            if (!string.IsNullOrEmpty(this.ConnectionString))
+            {
+                return Microsoft.Azure.Cosmos.Table.CloudStorageAccount.Parse(this.ConnectionString);
+            }
+
+            var creds = new Microsoft.Azure.Cosmos.Table.StorageCredentials(
+                this.AccountName,
+                StorageCredentials.ExportBase64EncodedKey(),
+                StorageCredentials.KeyName);
+
+            return new Microsoft.Azure.Cosmos.Table.CloudStorageAccount(creds, this.AccountName, this.EndpointSuffix, true);
+        }
     }
 }

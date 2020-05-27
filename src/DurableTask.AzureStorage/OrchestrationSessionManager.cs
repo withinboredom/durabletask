@@ -110,7 +110,7 @@ namespace DurableTask.AzureStorage
 
                     // This will block until either new messages arrive or the queue is released.
                     IReadOnlyList<MessageData> messages = await controlQueue.GetMessagesAsync(cancellationToken);
-                    
+
                     if (messages.Count > 0)
                     {
                         this.AddMessageToPendingOrchestration(controlQueue, messages, traceActivityId, cancellationToken);

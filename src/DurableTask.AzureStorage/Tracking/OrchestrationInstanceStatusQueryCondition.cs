@@ -69,8 +69,8 @@ namespace DurableTask.AzureStorage.Tracking
             where T : TableEntity, new()
         {
             var query = new TableQuery<T>();
-            if (!((this.RuntimeStatus == null || (!this.RuntimeStatus.Any())) && 
-                this.CreatedTimeFrom == default(DateTime) && 
+            if (!((this.RuntimeStatus == null || (!this.RuntimeStatus.Any())) &&
+                this.CreatedTimeFrom == default(DateTime) &&
                 this.CreatedTimeTo == default(DateTime) &&
                 this.TaskHubNames == null &&
                 this.InstanceIdPrefix == null))
@@ -130,13 +130,13 @@ namespace DurableTask.AzureStorage.Tracking
                 string greaterThanPrefix = this.InstanceIdPrefix.Substring(0, length) + incrementedLastChar;
 
                 conditions.Add(TableQuery.CombineFilters(
-                    TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.GreaterThanOrEqual, InstanceIdPrefix), 
-                    TableOperators.And, 
+                    TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.GreaterThanOrEqual, InstanceIdPrefix),
+                    TableOperators.And,
                     TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.LessThan, greaterThanPrefix)));
             }
 
-            return conditions.Count == 1 ? 
-                conditions[0] : 
+            return conditions.Count == 1 ?
+                conditions[0] :
                 conditions.Aggregate((a, b) => TableQuery.CombineFilters(a, TableOperators.And, b));
         }
 
